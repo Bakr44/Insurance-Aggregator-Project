@@ -1,54 +1,61 @@
 package com.example.Insurance_Aggregator_Project.Model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-@Entity
-@Data
-public class User {
+import java.util.Collection;
+import java.util.List;
+
+@Entity(name = "users")
+@Setter
+@Getter
+@AllArgsConstructor
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String email;
 
    @Column(nullable = false)
     private String password;
 
-    public User() {
+   private String role;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(this.role));
     }
 
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
+    @Override
+    public String getUsername() {
+        return email;
     }
 
-    public static UserBuilder builder(){
-    return new UserBuilder();
-}
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-   public static class UserBuilder{
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
-       private Long id;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
-       private String email;
-
-       private String password;
-
-       private UserBuilder(){
-
-       }
-
-       public UserBuilder email(String email){
-           this.email = email;
-           return this;
-       }
-
-
-       public User build(){
-           return new User(email,"");
-       }
-
-   }
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

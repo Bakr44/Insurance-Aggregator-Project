@@ -14,14 +14,15 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-//    public UserDetailsServiceImp(UserRepository userRepository){
-//        this.userRepository=userRepository;
-//    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         User user= userRepository.findByEmail(email);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("email not found");
+        }
 
         return org.springframework.security.core.userdetails.User
                 .builder()
