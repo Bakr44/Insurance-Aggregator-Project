@@ -2,6 +2,8 @@ package com.example.Insurance_Aggregator_Project.integration.insurance;
 
 
 import com.example.Insurance_Aggregator_Project.Advise.ApiException;
+import com.example.Insurance_Aggregator_Project.Model.Quote;
+import com.example.Insurance_Aggregator_Project.Repository.QuoteRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.auth.oauth2.Credential;
@@ -57,6 +59,8 @@ public class MockInsuranceIntegrationService implements InsuranceIntegrationServ
 
     private static final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY);
 
+    private final QuoteRepository quoteRepository;
+
 
     private Sheets getInsuranceSheets() throws IOException, GeneralSecurityException {
 
@@ -95,5 +99,19 @@ public class MockInsuranceIntegrationService implements InsuranceIntegrationServ
             throw new ApiException(e);
         }
 
+    }
+
+
+    public void saveQuotesFromGoogleSheet() {
+        List<InsuranceQuote> insuranceQuotes = getInsuranceQuotes();
+        for (InsuranceQuote insuranceQuote : insuranceQuotes) {
+            Quote quote = new Quote();
+            quote.setPolicyNumber(insuranceQuote.getPolicyNumber());
+            quote.setProvider(insuranceQuote.getProvider());
+            quote.setType(insuranceQuote.getType());
+            quote.setBasePrice(insuranceQuote.getBasePrice());
+            quote.setTax(insuranceQuote.getTax());
+            quoteRepository.save(quote);
+        }
     }
 }

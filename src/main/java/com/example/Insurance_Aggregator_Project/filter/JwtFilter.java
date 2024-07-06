@@ -1,7 +1,6 @@
 package com.example.Insurance_Aggregator_Project.filter;
 
-import com.example.Insurance_Aggregator_Project.Service.JwtServiceImp;
-import com.example.Insurance_Aggregator_Project.Service.UserDetailsServiceImp;
+import com.example.Insurance_Aggregator_Project.Service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -23,9 +23,9 @@ import java.io.IOException;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final JwtServiceImp jwtServiceImp;
+    private final JwtService jwtService;
 
-    private final UserDetailsServiceImp userDetailsServiceImp;
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -42,12 +42,12 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         final String jwtToken = authHeader.substring(bearer.length());
-        final String userEmail = jwtServiceImp.extractUserName(jwtToken);
+        final String userEmail = jwtService.extractUserName(jwtToken);
 
         if(org.apache.commons.lang3.StringUtils.isNotEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails userDetails = userDetailsServiceImp.loadUserByUsername(userEmail);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
 
-            if (jwtServiceImp.isTokenValid(jwtToken,userDetails)){
+            if (jwtService.isTokenValid(jwtToken,userDetails)){
                 SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
 
                 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(

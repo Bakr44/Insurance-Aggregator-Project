@@ -13,13 +13,15 @@ import java.util.Date;
 import java.util.function.Function;
 
 @Service
-public class JwtServiceImp {
+public class JwtService {
 
-    private String generateToken(UserDetails userDetails){
+    private final Key secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+    public String generateToken(UserDetails userDetails){
         return Jwts.builder().setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()+1000*60*24))
-                .signWith(SignatureAlgorithm.HS256, getSiginKey())
+                .signWith(secretKey)
                 .compact();
     }
 
@@ -34,7 +36,7 @@ public class JwtServiceImp {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(getSiginKey())
+                .setSigningKey(secretKey)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -49,10 +51,4 @@ public class JwtServiceImp {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-
-
-    private Key getSiginKey(){
-        byte[] key = Decoders.BASE64.decode("");
-        return Keys.hmacShaKeyFor(key);
-    }
 }

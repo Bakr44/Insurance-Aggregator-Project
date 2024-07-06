@@ -36,12 +36,12 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request->
                         request
-                                  .requestMatchers("/h2-console/**").permitAll() // Allow access to H2 console
-//                                .requestMatchers("/api/auth/login").permitAll()
-                                .requestMatchers("/api/auth/register").permitAll()
+                                .requestMatchers("/h2-console/**").permitAll()
+                                .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/api/assignQuote").authenticated()
                                 .anyRequest().permitAll()
                         )
-                .headers(headers -> headers.frameOptions().sameOrigin()) // Allow frames from same origin for H2 console
+                .headers(headers -> headers.frameOptions().sameOrigin())
                 .sessionManagement(management-> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
