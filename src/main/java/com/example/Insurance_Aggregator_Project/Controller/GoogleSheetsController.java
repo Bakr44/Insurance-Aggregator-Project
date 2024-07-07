@@ -1,8 +1,6 @@
 package com.example.Insurance_Aggregator_Project.Controller;
 
 import com.example.Insurance_Aggregator_Project.integration.insurance.InsuranceIntegrationService;
-import com.example.Insurance_Aggregator_Project.integration.insurance.InsuranceIntegrationServiceImpl;
-import com.example.Insurance_Aggregator_Project.integration.insurance.MockInsuranceIntegrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

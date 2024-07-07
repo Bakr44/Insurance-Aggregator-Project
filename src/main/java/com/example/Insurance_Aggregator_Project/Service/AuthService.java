@@ -2,21 +2,16 @@ package com.example.Insurance_Aggregator_Project.Service;
 
 import com.example.Insurance_Aggregator_Project.Advise.ApiException;
 import com.example.Insurance_Aggregator_Project.DTO.JwtAuthResponse;
-import com.example.Insurance_Aggregator_Project.Model.Quote;
 import com.example.Insurance_Aggregator_Project.Model.User;
-import com.example.Insurance_Aggregator_Project.Repository.QuoteRepository;
 import com.example.Insurance_Aggregator_Project.Repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -31,8 +26,6 @@ public class AuthService {
     private final UserDetailsService userDetailsService;
 
     private final AuthenticationManager authenticationManager;
-
-    private final QuoteRepository quoteRepository;
 
     private final JwtService jwtService;
 

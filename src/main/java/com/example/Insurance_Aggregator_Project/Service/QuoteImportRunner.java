@@ -1,7 +1,6 @@
 package com.example.Insurance_Aggregator_Project.Service;
 
 import com.example.Insurance_Aggregator_Project.integration.insurance.MockInsuranceIntegrationService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

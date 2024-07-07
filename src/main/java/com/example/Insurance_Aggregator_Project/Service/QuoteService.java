@@ -3,7 +3,6 @@ package com.example.Insurance_Aggregator_Project.Service;
 import com.example.Insurance_Aggregator_Project.Model.Quote;
 import com.example.Insurance_Aggregator_Project.Model.User;
 import com.example.Insurance_Aggregator_Project.Repository.QuoteRepository;
-import com.example.Insurance_Aggregator_Project.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
